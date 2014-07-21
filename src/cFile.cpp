@@ -7,11 +7,13 @@
 
 #include "cFile.h"
 
-cFile::cFile(string &name, string &author, string &hash) {
+cFile::cFile(string& name, string& author, int trustLvlFile, string& desc) {
 	this->name = name;
 	this->author = author;
-	this->hash = hash;
+	this->trustLvlFile = trustLvlFile;
+	this->desc = desc;
 }
+
 
 cFile::~cFile() {
 	// TODO Auto-generated destructor stub
@@ -20,3 +22,4 @@ cFile::~cFile() {
 string cFile::getName() {
 	return this->name;
 }
+

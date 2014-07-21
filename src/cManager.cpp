@@ -63,11 +63,20 @@ bool cManager::addToMap(string &hash, cFile file) {
 
 bool cManager::add(string &filename, string &author) {
 	string hash = getHash(filename);
-	cFile toAdd(filename, author, hash);
-	return addToMap(filename, toAdd);
+	return false;
+//	cFile toAdd(filename, author, hash);
+//	return addToMap(filename, toAdd);
 }
 
 cManager::~cManager() {
 	// TODO Auto-generated destructor stub
 }
 
+bool cManager::loadFromFileToMap() {
+}
+
+bool cManager::saveMapToFile() {
+}
+
+cFile cManager::generateCFile(string& filename) {
+}

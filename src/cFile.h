@@ -15,15 +15,26 @@ using namespace std;
 
 class cFile {
 public:
-	cFile(string &name, string &author, string &hash);
+	cFile(string &name, string &author, int trustLvlFile, string &desc);
 	virtual ~cFile();
 
 	string getName();
 
+	const string& getAuthor() const {
+		return author;
+	}
+
+	const string& getDesc() const {
+		return desc;
+	}
+
+	int getTrustLvlFile() const {
+		return trustLvlFile;
+	}
+
 private:
 	string name;
 	string author;
-	string hash;
 	int trustLvlFile;
 	string desc;
 	// TODO format in file
