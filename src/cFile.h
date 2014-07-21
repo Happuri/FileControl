@@ -24,7 +24,9 @@ private:
 	string name;
 	string author;
 	string hash;
-
+	int trustLvlFile;
+	string desc;
+	// TODO format in file
 };
 
 #endif /* CFILE_H_ */
