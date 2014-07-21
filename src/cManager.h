@@ -40,8 +40,8 @@ private:
 	string getHash(string &filename);
 	string getHash(cFile file);
 	bool addToMap(string &hash, cFile);
-	bool loadFromFileToMap();
-	bool saveMapToFile();
+	bool loadFromFileToMap(); // TODO
+	bool saveMapToFile(); // TODO
 	cFile generateCFile(string &filename);
 };
 
