@@ -11,6 +11,9 @@
 #include <iostream>
 #include <string>
 
+#define DBG __FUNCTION__<<":"<< __LINE__<<"\t"
+
+
 using namespace std;
 
 class cFile {
@@ -18,7 +21,8 @@ public:
 	cFile(string &name, string &author, int trustLvlFile, string &desc);
 	virtual ~cFile();
 
-	string getName();
+	void printInfo() ;
+
 
 	const string& getAuthor() const {
 		return author;
@@ -30,6 +34,10 @@ public:
 
 	int getTrustLvlFile() const {
 		return trustLvlFile;
+	}
+
+	const string& getName() const {
+		return name;
 	}
 
 private:

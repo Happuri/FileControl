@@ -27,7 +27,7 @@ using namespace std;
 class cManager {
 public:
 	cManager();
-	cManager(string filename);
+	cManager(cFile);
 	virtual ~cManager();
 	void displayMap(); // displays map
 	bool add(string &filename, string &author); // add new file, parsing

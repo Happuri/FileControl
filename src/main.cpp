@@ -7,11 +7,18 @@
 //============================================================================
 
 #include "cManager.h"
+#include "cFile.h"
 #include <iostream>
 
 using namespace std;
 
 int main() {
-	cManager FIleControl;
+
+	string filename="example.txt";
+	string author="abby";
+	int lvl=100;
+	string desc="just test";
+	cFile file1(filename, author, lvl, desc);
+	cManager FIleControl(file1);
 	return 0;
 }

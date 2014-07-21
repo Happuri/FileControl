@@ -12,6 +12,7 @@ cFile::cFile(string& name, string& author, int trustLvlFile, string& desc) {
 	this->author = author;
 	this->trustLvlFile = trustLvlFile;
 	this->desc = desc;
+	printInfo();
 }
 
 
@@ -19,7 +20,13 @@ cFile::~cFile() {
 	// TODO Auto-generated destructor stub
 }
 
-string cFile::getName() {
-	return this->name;
+void cFile::printInfo() {
+	cout << "\n        ---------INFO---------" << endl;
+	cout << "       name: " << this->name << endl;
+	cout << "     author: " << this->author << endl;
+	cout << "trust level: " << this->trustLvlFile << endl;
+	cout << "description: " << this->desc << endl;
+	cout << "        -------END INFO-------" << endl;
+
 }
 

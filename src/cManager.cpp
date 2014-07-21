@@ -13,10 +13,12 @@ cManager::cManager() :
 	cout << DBG << dataFile << endl;
 }
 
-cManager::cManager(string filename) :
+cManager::cManager(cFile toAdd) :
 		dataFile("data.txt") {
-	cout << DBG << "File to add:  " << filename << endl;
-
+	cout << DBG << "File to add:  " << toAdd.getName() << endl;
+	string hash =  getHash(toAdd);
+	if(!addToMap( hash, toAdd) ) cout << DBG << "Can't add to map " << toAdd.getName() << endl;
+	displayMap();
 }
 
 void cManager::displayMap() {
@@ -30,12 +32,12 @@ void cManager::displayMap() {
 }
 
 string cManager::getHash(string &filename) {
-	CryptoPP::SHA1 sha1;
+	CryptoPP::SHA512 sha512;
 	string hash = "";
 	fstream file;
 	file.open(filename.c_str(), ios::in);
 
-	CryptoPP::FileSource(file, true, new CryptoPP::HashFilter(sha1, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
+	CryptoPP::FileSource(file, true, new CryptoPP::HashFilter(sha512, new CryptoPP::HexEncoder(new CryptoPP::StringSink(hash))));
 	cout << DBG << filename << "\t" << hash << endl;
 	return hash;
 }
@@ -73,10 +75,10 @@ cManager::~cManager() {
 }
 
 bool cManager::loadFromFileToMap() {
+	return false;
 }
 
 bool cManager::saveMapToFile() {
+	return false;
 }
 
-cFile cManager::generateCFile(string& filename) {
-}
