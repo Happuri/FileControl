@@ -22,7 +22,7 @@ public:
 	virtual ~cFile();
 
 	void printInfo() ; // displays info
-	string toString(); // returns all info about file as string TODO @marcin
+	string toString(); 
 
 	// getters
 	const string& getAuthor() const {

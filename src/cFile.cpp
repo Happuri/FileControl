@@ -6,18 +6,18 @@
  */
 
 #include "cFile.h"
+#include <sstream>
 
 cFile::cFile(string& name, string& author, int trustLvlFile, string& desc) {
 	this->name = name;
 	this->author = author;
 	this->trustLvlFile = trustLvlFile;
 	this->desc = desc;
-	printInfo();
+	//printInfo();
 }
 
 
 cFile::~cFile() {
-	// TODO Auto-generated destructor stub
 }
 
 void cFile::printInfo() {
@@ -28,5 +28,12 @@ void cFile::printInfo() {
 	cout << "description: " << this->desc << endl;
 	cout << "        -------END INFO-------" << endl;
 
+}
+
+string cFile::toString() {
+	stringstream info;
+	info<<this->name<<" "<<this->author<<""<<this->trustLvlFile<<" "<<this->desc;
+	string information=info.str();
+	return information;
 }
 

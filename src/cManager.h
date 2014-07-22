@@ -32,17 +32,17 @@ public:
 	void displayMap(); // displays map
 	bool add(cFile); // add new file, parsing
 	map <string, cFile> getMap(); // returns map
-	string getInfo(cFile); // TODO @marcin show all information about one file
+	string getInfo(cFile file); //  show all information about one file
+	bool saveMapToFile(); 
+	bool lookForFile(string checksum, string filename);
 
 private:
 	map <string, cFile> hashFiles; // map with cFile ang hash
 	string dataFile; // name of file, where map is saved
-
 	string getHash(string &filename);
 	string getHash(cFile file); // returns hash from cFile
 	bool addToMap(string &hash, cFile);
-	bool loadFromFileToMap(); // TODO
-	bool saveMapToFile(); // TODO
+	bool loadFiletoMap();
 };
 
 #endif /* CMANAGER_H_ */
