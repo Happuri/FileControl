@@ -15,17 +15,14 @@ cManager::cManager() :
 
 cManager::cManager(cFile toAdd) :
 		dataFile("data.txt") {
-	cout << DBG << "File to add:  " << toAdd.getName() << endl;
-	string hash =  getHash(toAdd);
-	if(!addToMap( hash, toAdd) ) cout << DBG << "Can't add to map " << toAdd.getName() << endl;
-	displayMap();
+	bool ok = add(toAdd);
 }
 
 void cManager::displayMap() {
 	cout << "---DISPLAYING MAP!!---" << endl;
 	map<string, cFile>::iterator it = this->hashFiles.begin();
 	for (it = this->hashFiles.begin(); it != this->hashFiles.end(); ++it)
-		cout << "   " << it->first << endl;
+		cout << "- " << it->first << " => " << it->second.getName() << endl;
 
 //		cout << "   " << it->first << " => " << it->second.toString() << endl;
 	cout << "------END MAP---------" << endl;
@@ -63,11 +60,15 @@ bool cManager::addToMap(string &hash, cFile file) {
 	return true;
 }
 
-bool cManager::add(string &filename, string &author) {
-	string hash = getHash(filename);
-	return false;
-//	cFile toAdd(filename, author, hash);
-//	return addToMap(filename, toAdd);
+bool cManager::add(cFile toAdd) {
+	cout << DBG << "File to add:  " << toAdd.getName() << endl;
+	string hash = getHash(toAdd);
+	if (!addToMap(hash, toAdd)) {
+		cout << DBG << "Can't add to map " << toAdd.getName() << endl;
+		return false;
+	}
+	displayMap();
+	return true;
 }
 
 cManager::~cManager() {

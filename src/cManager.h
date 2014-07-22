@@ -30,7 +30,7 @@ public:
 	cManager(cFile);
 	virtual ~cManager();
 	void displayMap(); // displays map
-	bool add(string &filename, string &author); // add new file, parsing
+	bool add(cFile); // add new file, parsing
 	map <string, cFile> getMap(); // returns map
 
 private:
