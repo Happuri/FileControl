@@ -21,9 +21,10 @@ public:
 	cFile(string &name, string &author, int trustLvlFile, string &desc);
 	virtual ~cFile();
 
-	void printInfo() ;
+	void printInfo() ; // displays info
+	string toString(); // returns all info about file as string TODO @marcin
 
-
+	// getters
 	const string& getAuthor() const {
 		return author;
 	}
@@ -45,7 +46,6 @@ private:
 	string author;
 	int trustLvlFile;
 	string desc;
-	// TODO format in file
 };
 
 #endif /* CFILE_H_ */

@@ -13,12 +13,19 @@
 using namespace std;
 
 int main() {
-
+	// informations about file
 	string filename="example.txt";
 	string author="abby";
 	int lvl=100;
 	string desc="just test";
+
+	// creating cFile
 	cFile file1(filename, author, lvl, desc);
-	cManager FIleControl(file1);
+
+	// creating cManager and adding file1: two ways
+	//cManager FIleControl(file1);
+
+	cManager FileControl;
+	FileControl.add(file1);
 	return 0;
 }

@@ -27,22 +27,22 @@ using namespace std;
 class cManager {
 public:
 	cManager();
-	cManager(cFile);
+	cManager(cFile); // constructor, add file to map
 	virtual ~cManager();
 	void displayMap(); // displays map
 	bool add(cFile); // add new file, parsing
 	map <string, cFile> getMap(); // returns map
+	string getInfo(cFile); // TODO @marcin show all information about one file
 
 private:
-	map <string, cFile> hashFiles;
-	string dataFile;
+	map <string, cFile> hashFiles; // map with cFile ang hash
+	string dataFile; // name of file, where map is saved
 
 	string getHash(string &filename);
-	string getHash(cFile file);
+	string getHash(cFile file); // returns hash from cFile
 	bool addToMap(string &hash, cFile);
 	bool loadFromFileToMap(); // TODO
 	bool saveMapToFile(); // TODO
-	cFile generateCFile(string &filename);
 };
 
 #endif /* CMANAGER_H_ */
