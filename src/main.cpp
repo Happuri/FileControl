@@ -17,29 +17,27 @@ int main(int argc, char* argv[]) {
 	// informations about file
 	string filename=argv[2];
 	string option=argv[1];
+	cManager FileControl;
 	if (option=="-A") {
-		string author=getlogin();;
+		FileControl.addDatabase(argv[5]);
+		string author=getlogin();
 		int lvl=atoi(argv[3]);
 		string desc=argv[4];
 		cFile file1(filename, author, lvl, desc);
-		cManager FileControl;
 		FileControl.add(file1);
-		FileControl.saveMapToFile(); 
+		FileControl.saveMapToFile(argv[5]);
 		cout<<"Adding file: "<<file1.getName()<<" with checksum "<<FileControl.getInfo(file1)<<" with trust "<< file1.getTrustLvlFile() <<" by author "<<file1.getAuthor()<<endl;
-		return 0;
 	}
 	else if (option=="-G") {
 		string author="test_author";
 		int lvl=0;
 		string desc="0";
 		cFile file1(filename, author, lvl, desc);
-		cManager FileControl;
-		cout<<"Checking file "<<filename<<" with checksum "<<FileControl.getInfo(file1)<<endl;
+		cout<<"Checking file "<<filename<<" with checksum "<<FileControl.getInfo(file1)<<endl;		
 		FileControl.lookForFile(FileControl.getInfo(file1),filename);
 	}
 	// creating cFile
 	// creating cManager and adding file1: two ways
 	//cManager FIleControl(file1);
-
 	return 0;
 }

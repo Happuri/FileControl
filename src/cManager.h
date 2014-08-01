@@ -33,16 +33,17 @@ public:
 	bool add(cFile); // add new file, parsing
 	map <string, cFile> getMap(); // returns map
 	string getInfo(cFile file); //  show all information about one file
-	bool saveMapToFile(); 
+	bool saveMapToFile(char * name); 
 	bool lookForFile(string checksum, string filename);
-
-private:
 	map <string, cFile> hashFiles; // map with cFile ang hash
+	void addDatabase(string name);
+private:
+	vector<string> DataBases;
 	string dataFile; // name of file, where map is saved
 	string getHash(string &filename);
 	string getHash(cFile file); // returns hash from cFile
 	bool addToMap(string &hash, cFile);
-	bool loadFiletoMap();
+	bool loadFiletoMap(std::ifstream & Database);
 };
 
 #endif /* CMANAGER_H_ */

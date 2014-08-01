@@ -6,17 +6,36 @@
  */
 
 #include "cManager.h"
-
+#include <string.h>
 cManager::cManager() :
 		dataFile("data.txt") {
 //	cout << "--FileControl--" << endl; // prints tmp
 //	cout << DBG << dataFile << endl;
-loadFiletoMap();
+	for (vector<string>::iterator it=this->DataBases.begin(); it!=this->DataBases.end(); ++it){
+		string filen=*it;
+		const char* filename= strcpy((char*)malloc(filen.length()+1), filen.c_str());
+		ifstream file(filename);
+		cout<<filename<<endl;
+		loadFiletoMap(file);
+	}
 }
+
 
 cManager::cManager(cFile toAdd) :
 		dataFile("data.txt") {
 	bool ok = add(toAdd);
+}
+
+void cManager:: addDatabase(string name) {
+	bool ifexists=false;
+	for (vector<string>::iterator it=this->DataBases.begin(); it!=this->DataBases.end(); ++it){
+		if (*it==name) {
+			ifexists=true;
+		}
+	}
+	if(ifexists==false){
+		DataBases.push_back(name);
+	}
 }
 
 void cManager::displayMap() {
@@ -65,7 +84,7 @@ bool cManager::add(cFile toAdd) {
 //	cout << DBG << "File to add:  " << toAdd.getName() << endl;
 	string hash = getHash(toAdd);
 	if (!addToMap(hash, toAdd)) {
-		cout << DBG << "Can't add to map " << toAdd.getName() << endl;
+//		cout << DBG << "Can't add to map " << toAdd.getName() << endl;
 		return false;
 	}
 	//displayMap();
@@ -76,22 +95,24 @@ cManager::~cManager() {
 }
 
 bool cManager::lookForFile(string checksum, string name) {
-	ifstream Database("data_base.txt");
 	bool isfound=false;
 	string line;
 	int samechecksum=0;
 	int samechecksumandname=0;
-	static int othername=0;
+	int othername=0;
 	int samename=0;
 	for (map<string,cFile>::iterator it=this->hashFiles.begin(); it!=this->hashFiles.end(); ++it){
+			cout<<it->second.getName();
+		}		
+	for (map<string,cFile>::iterator it=this->hashFiles.begin(); it!=this->hashFiles.end(); ++it){
 		if(it->first==checksum && it->second.getTrustLvlFile()>=50 && it->second.getName()==name) {
-			cout<<"OK, found the checksum at good trust"<<it->second.getTrustLvlFile();
+			cout<<"OK, found the checksum at good trust "<<it->second.getTrustLvlFile()<<endl;
 			isfound=true;
 			samechecksum++;
 			samechecksumandname++;
 		}
-		else  if(it->second.getName()!=name) {
-			cout<<"OK, found the checksum at good trust"<<it->second.getTrustLvlFile();
+		else if(it->second.getName()!=name && it->first==checksum && it->second.getTrustLvlFile()>=50) {
+			cout<<"OK, found the checksum at good trust "<<it->second.getTrustLvlFile()<<endl;
 			isfound=true;
 			samechecksum++;
 			othername++;
@@ -111,10 +132,9 @@ bool cManager::lookForFile(string checksum, string name) {
 	return isfound;
 }
 
-bool cManager::loadFiletoMap() {
-	ifstream Database("data_base.txt");
+bool cManager::loadFiletoMap(ifstream & Database) {
 	string line;
-	if(!Database){
+	if(Database){
 	while(getline(Database,line)) {
 		string filename=line;
 		getline(Database,line);
@@ -131,19 +151,51 @@ bool cManager::loadFiletoMap() {
 	return false;
 }
 
-bool cManager::saveMapToFile() {
-	ofstream Database("data_base.txt",ios::out | ios::app);
-	if(Database.good()){
-	for (map<string,cFile>::iterator it=this->hashFiles.begin(); it!=this->hashFiles.end(); ++it){
-		Database<<it->second.getName()<<endl;
-		Database<< it->second.getTrustLvlFile()<<endl;
-		Database<<it->second.getAuthor()<<endl;
-		Database<<it->second.getDesc()<<endl;
-		Database<<this->getInfo(it->second)<<endl;
+bool cManager::saveMapToFile(char* name) {
+	ifstream Database(name);                     //open a file
+	map <string, cFile> mymap;
+	map <string, cFile> myhash=this->hashFiles;
+	string line;
+	if(Database){										// write file in our map
+	while(getline(Database,line)){
+		string filename=line;
+		getline(Database,line);
+		int lvl= atoi(line.c_str());
+		getline(Database,line);
+		string author=line;
+		getline(Database,line);
+		string desc=line;
+		cFile file1(filename, author, lvl, desc);
+		getline(Database,line);
+		mymap.insert(pair<string,cFile>(line,file1) );
 	}
-}
+	}
+	Database.close();
+	for (map<string,cFile>::iterator it=myhash.begin(); it!=myhash.end(); ++it){    // check if we have in hashFiles 
+		for (map<string,cFile>::iterator ite=mymap.begin(); ite!=mymap.end(); ++ite){
+			if(ite->first==it->first) {
+				if(ite->second.getName() == it->second.getName()) {
+					if(ite->second.getAuthor() ==it->second.getAuthor()) {
+						if(ite->second.getTrustLvlFile() ==it->second.getTrustLvlFile()) {
+							myhash.erase(it);								// erase while it is 
+						}
+					}
+				}
+			}				
+		}
+	}
+	ofstream Database2(name, ios::app);							// open database to write our hash
+	for (map<string,cFile>::iterator it=myhash.begin(); it!=myhash.end(); ++it){
+		Database2<<it->second.getName()<<endl;
+		Database2<<it->second.getTrustLvlFile()<<endl;
+		Database2<<it->second.getAuthor()<<endl;
+		Database2<<it->second.getDesc()<<endl;
+		Database2<<it->first<<endl;
+	}
+	
 	return true;
 }
+
 
 string cManager::getInfo(cFile file) {
 	return getHash(file);
