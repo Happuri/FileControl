@@ -27,7 +27,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
 
-		/* argv[1] - option (string)
+		/* argv[1] - option (string)	
 		 * argv[2] - name of file	(string)
 		 * argv[3] - level of trust (int)
 		 * argv[4] - description of file (string)
@@ -45,11 +45,15 @@ int main(int argc, char* argv[]) {
 			if(argc!=6){
 				cout << "[-A] nameOfFile level desc database" << endl;
 			}
-					
+			
+			if(argc==6){
+				FileControl.addDatabase(argv[5]);
+			}
+			
 		string filename=argv[2];
 		int lvl=atoi(argv[3]);
 		string desc=argv[4];
-		FileControl.addDatabase(argv[5]);
+		//FileControl.addDatabase(argv[5]);
 		string author=getlogin();										// obtain name of user (string)	
 		
 		cFile file1(filename, author, lvl, desc);
@@ -84,6 +88,11 @@ int main(int argc, char* argv[]) {
 	/*			Display Map			*/
 	else if(option=="-M"){
 		
+		if(argc==3){
+			FileControl.dataFile = argv[2];
+		}
+		
+		FileControl.fConstructor(FileControl.dataFile);
 		FileControl.displayMap();
 		
 	}
