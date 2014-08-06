@@ -7,23 +7,32 @@
 
 #include "cManager.h"
 #include <string.h>
-cManager::cManager() :
-		dataFile("data.txt") {
-//	cout << "--FileControl--" << endl; // prints tmp
-//	cout << DBG << dataFile << endl;
+cManager::cManager() 
+		: dataFile("data.txt") {
+}
+
+void cManager::fConstructor(string dataFile){
+	
+	addDatabase(dataFile);
+
 	for (vector<string>::iterator it=this->DataBases.begin(); it!=this->DataBases.end(); ++it){
-		string filen=*it;
-		const char* filename= strcpy((char*)malloc(filen.length()+1), filen.c_str());
-		ifstream file(filename);
-		cout<<filename<<endl;
-		loadFiletoMap(file);
+		if (this->DataBases.begin() != this->DataBases.end()) {
+				string filen=*it;
+				const char* filename= strcpy((char*)malloc(filen.length()+1), filen.c_str());
+				ifstream file(filename);
+				loadFiletoMap(file);
+		}	else {
+				cout << "empty" <<endl;
+				break;
+			}
 	}
+	
 }
 
 
 cManager::cManager(cFile toAdd) :
 		dataFile("data.txt") {
-	bool ok = add(toAdd);
+				bool ok = add(toAdd);
 }
 
 void cManager:: addDatabase(string name) {
@@ -39,12 +48,11 @@ void cManager:: addDatabase(string name) {
 }
 
 void cManager::displayMap() {
+	
 	cout << "---DISPLAYING MAP!!---" << endl;
 	map<string, cFile>::iterator it = this->hashFiles.begin();
 	for (it = this->hashFiles.begin(); it != this->hashFiles.end(); ++it)
 		cout << "- " << it->first << " => " << it->second.getName() << endl;
-
-//		cout << "   " << it->first << " => " << it->second.toString() << endl;
 	cout << "------END MAP---------" << endl;
 }
 
@@ -101,9 +109,12 @@ bool cManager::lookForFile(string checksum, string name) {
 	int samechecksumandname=0;
 	int othername=0;
 	int samename=0;
+	
+	cout << "Display all files in database: " << endl;
 	for (map<string,cFile>::iterator it=this->hashFiles.begin(); it!=this->hashFiles.end(); ++it){
-			cout<<it->second.getName();
-		}		
+			cout << it->second.getName() << " ";
+		}
+		cout << endl;
 	for (map<string,cFile>::iterator it=this->hashFiles.begin(); it!=this->hashFiles.end(); ++it){
 		if(it->first==checksum && it->second.getTrustLvlFile()>=50 && it->second.getName()==name) {
 			cout<<"OK, found the checksum at good trust "<<it->second.getTrustLvlFile()<<endl;
@@ -133,6 +144,8 @@ bool cManager::lookForFile(string checksum, string name) {
 }
 
 bool cManager::loadFiletoMap(ifstream & Database) {
+		
+	
 	string line;
 	if(Database){
 	while(getline(Database,line)) {
@@ -148,6 +161,7 @@ bool cManager::loadFiletoMap(ifstream & Database) {
 		this->hashFiles.insert(pair<string,cFile>(line,file1) );
 	}
 }
+	
 	return false;
 }
 

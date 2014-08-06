@@ -37,13 +37,17 @@ public:
 	bool lookForFile(string checksum, string filename);
 	map <string, cFile> hashFiles; // map with cFile ang hash
 	void addDatabase(string name);
-private:
-	vector<string> DataBases;
 	string dataFile; // name of file, where map is saved
+	void fConstructor(string dataFile);
+	
+	
+private:
+		
+	bool loadFiletoMap(std::ifstream & Database);
+	vector<string> DataBases;
 	string getHash(string &filename);
 	string getHash(cFile file); // returns hash from cFile
 	bool addToMap(string &hash, cFile);
-	bool loadFiletoMap(std::ifstream & Database);
 };
 
 #endif /* CMANAGER_H_ */
