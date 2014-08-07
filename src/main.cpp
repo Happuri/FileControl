@@ -14,6 +14,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <vector>
 
 #include <cryptopp/sha.h>
 #include <cryptopp/filters.h>
@@ -42,24 +43,27 @@ int main(int argc, char* argv[]) {
 	/*			Add file to the database			*/
 	if (option=="-A") {
 		
+		// Help
 			if(argc!=6){
-				cout << "[-A] nameOfFile level desc database" << endl;
+				cout << "[-A] nameOfFile level desc database" << endl;		
 			}
-			
+		// Additional option (database)
 			if(argc==6){
 				FileControl.addDatabase(argv[5]);
 			}
-			
+		
+		// Assign argv to variables
 		string filename=argv[2];
 		int lvl=atoi(argv[3]);
 		string desc=argv[4];
-		//FileControl.addDatabase(argv[5]);
 		string author=getlogin();										// obtain name of user (string)	
-		
+
+		// Add file to database
 		cFile file1(filename, author, lvl, desc);
 		FileControl.add(file1);
 		FileControl.saveMapToFile(argv[5]);
 		
+		// Display info
 		cout<<"Adding file: "<<file1.getName()<<" with checksum "<<FileControl.getInfo(file1)<<" with trust "<< file1.getTrustLvlFile() <<" by author "<<file1.getAuthor()<<endl;
 		
 	}
@@ -67,10 +71,12 @@ int main(int argc, char* argv[]) {
 	/* 			Check the checksum of file			*/
 	else if (option=="-G") {
 		
+	// Additional option (database)
 		if (argc==4){
 		FileControl.dataFile = argv[3];
 	}
 	
+	// Add variable, obtain vector of files
 		string filename=argv[2];
 		FileControl.fConstructor(FileControl.dataFile);
 		
@@ -79,24 +85,42 @@ int main(int argc, char* argv[]) {
 		string desc="0";
 		
 		cFile file1(filename, author, lvl, desc);
-		
+	
+	// Display info
 		cout<<"Checking file "<<filename<<" with checksum "<<FileControl.getInfo(file1)<<endl;
 		FileControl.lookForFile(FileControl.getInfo(file1),filename);
 		
 	}
 	
-	/*			Display Map			*/
+	/*			Display vector of files			*/
 	else if(option=="-M"){
 		
+		// Additional option (database)
 		if(argc==3){
 			FileControl.dataFile = argv[2];
 		}
 		
+		// Obtain vector of files and display it
 		FileControl.fConstructor(FileControl.dataFile);
 		FileControl.displayMap();
 		
 	}
 	
+	/*			Add new database to database list			*/
+	else if(option=="-DBA"){
+		
+		FileControl.dbName = argv[2];
+		FileControl.dbAdd(FileControl.dbName);
+		
+	}
+	
+	/*			Display database list			*/
+		else if(option=="-DBD"){
+		
+		cout << "List of databases: " << endl;
+		FileControl.dbDisplay(FileControl.dbName);
+		
+	}
 	
 	
 	

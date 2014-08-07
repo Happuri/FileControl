@@ -2,7 +2,7 @@
  * cFile.h
  *
  *  Created on: 19 lip 2014
- *      Author: abby
+ *      Author: abby, TheNaturat, marcin
  */
 
 #ifndef CFILE_H_
@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #define DBG __FUNCTION__<<":"<< __LINE__<<"\t"
 

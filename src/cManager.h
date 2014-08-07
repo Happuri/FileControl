@@ -2,7 +2,7 @@
  * cManager.h
  *
  *  Created on: 19 lip 2014
- *      Author: abby
+ *      Author: abby, TheNaturat, marcin
  */
 
 #ifndef CMANAGER_H_
@@ -12,6 +12,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <vector>
 
 #include <cryptopp/sha.h>
 #include <cryptopp/filters.h>
@@ -25,29 +26,34 @@
 using namespace std;
 
 class cManager {
+	
 public:
+
 	cManager();
-	cManager(cFile); // constructor, add file to map
+	cManager(cFile); 							// constructor, add file to map
 	virtual ~cManager();
-	void displayMap(); // displays map
-	bool add(cFile); // add new file, parsing
-	map <string, cFile> getMap(); // returns map
-	string getInfo(cFile file); //  show all information about one file
+	void displayMap(); 							// displays map
+	void fConstructor(string dataFile); 		// code from constructor
+	void addDatabase(string name);				// obtain map of files
+	void dbAdd(string dbName);					// add database to dbList
+	void dbDisplay(string dbName);				// display vector 
+	bool add(cFile); 							// add new file, parsing
 	bool saveMapToFile(char * name); 
-	bool lookForFile(string checksum, string filename);
-	map <string, cFile> hashFiles; // map with cFile ang hash
-	void addDatabase(string name);
-	string dataFile; // name of file, where map is saved
-	void fConstructor(string dataFile);
-	
-	
+	bool lookForFile(string checksum, string filename);	// check database
+	map <string, cFile> getMap(); 				// returns map
+	map <string, cFile> hashFiles; 				// map with cFile ang hash
+	string dataFile; 							// name of file, where map is saved
+	string dbName;								// name of database
+	string getInfo(cFile file); 				//  show all information about one file
+		
 private:
 		
 	bool loadFiletoMap(std::ifstream & Database);
-	vector<string> DataBases;
-	string getHash(string &filename);
-	string getHash(cFile file); // returns hash from cFile
 	bool addToMap(string &hash, cFile);
+	vector<string> DataBases;					// list of files
+	vector<string> dbList;						// list of databases
+	string getHash(string &filename);			// returns hash from string
+	string getHash(cFile file);					// returns hash from cFile
 };
 
 #endif /* CMANAGER_H_ */

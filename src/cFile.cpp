@@ -2,7 +2,7 @@
  * cFile.cpp
  *
  *  Created on: 19 lip 2014
- *      Author: abby
+ *      Author: abby, TheNaturat, marcin
  */
 
 #include "cFile.h"

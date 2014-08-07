@@ -2,7 +2,7 @@
  * cManager.cpp
  *
  *  Created on: 19 lip 2014
- *      Author: abby
+ *      Author: abby, TheNaturat, marcin
  */
 
 #include "cManager.h"
@@ -26,7 +26,6 @@ void cManager::fConstructor(string dataFile){
 				break;
 			}
 	}
-	
 }
 
 
@@ -44,6 +43,61 @@ void cManager:: addDatabase(string name) {
 	}
 	if(ifexists==false){
 		DataBases.push_back(name);
+	}
+}
+
+void cManager::dbAdd(string dbName){
+	
+	bool dbCheck = false;
+	
+	// open file with list of databases and insert to vector
+	ifstream dbFile("dblist.txt");
+	string line;
+	if(dbFile){
+	while(getline(dbFile,line)) {
+		string filename=line;
+		dbList.push_back(filename);
+	}
+}
+	
+	// check that database is already in dbList
+	int count = 0;
+	for (vector<string>::iterator it=this->dbList.begin(); it!=this->dbList.end(); it++){
+		if(dbName==dbList[count]){
+			dbCheck = true;
+		}
+		count++;
+	}
+
+	// add database to dbList
+	if(!dbCheck){
+		ofstream dbList("dblist.txt", ios::app);							// open list of database to write new db
+			dbList<<dbName<<endl;	
+		cout << "Add " << dbName << " to dbList" << endl;
+}	
+	// database is already in dbList
+	else{
+		cout << "This database is already in dbList" << endl;
+	}	
+}
+
+void cManager::dbDisplay(string dbName){
+	
+	// open file with list of databases and insert to vector
+	ifstream dbFile("dblist.txt");
+	string line;
+	if(dbFile){
+	while(getline(dbFile,line)) {
+		string filename=line;
+		dbList.push_back(filename);
+	}
+}
+
+	// display vector of databases
+	int count = 0;
+	for (vector<string>::iterator it=this->dbList.begin(); it!=this->dbList.end(); it++){
+	cout << dbList[count] << endl;
+	count++;
 	}
 }
 
